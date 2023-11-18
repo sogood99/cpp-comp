@@ -22,18 +22,37 @@ const double EPS = 1e-9;
 
 class LRUCache {
 private:
-  int *cache = nullptr;
+  list<ii> linkedlist; // linked list of key values
+  unordered_map<int, list<ii>::iterator> um;
+  int capacity;
 
 public:
-  LRUCache(int capacity) {
-    cache = new int[capacity];
+  LRUCache(int capacity) { this->capacity = capacity; }
 
-    fill_n(cache, capacity, -1);
+  int get(int key) {
+
+    if (um.count(key) == 0) {
+      return -1;
+    }
+
+    linkedlist.splice(linkedlist.begin(), linkedlist, um[key]);
+
+    return um[key]->second;
   }
 
-  int get(int key) { return cache[key]; }
-
-  void put(int key, int value) { cache[key] = value; }
+  void put(int key, int value) {
+    if (get(key) != -1) {
+      um[key]->second = value;
+    } else {
+      if (linkedlist.size() >= capacity) {
+        int pop_key = linkedlist.back().first;
+        linkedlist.pop_back();
+        um.erase(pop_key);
+      }
+      linkedlist.push_front({key, value});
+      um[key] = linkedlist.begin();
+    }
+  }
 };
 
 /**
