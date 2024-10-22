@@ -21,16 +21,29 @@ const ll LLINF = 4e18; // 4*10^18 is < 2^63-1
 const double EPS = 1e-9;
 
 class MinStack {
+  stack<int> s, s_min;
+
 public:
   MinStack() {}
 
-  void push(int val) {}
+  void push(int val) {
+    s.push(val);
+    if (s_min.empty() || s_min.top() >= val) {
+      s_min.push(val);
+    }
+  }
 
-  void pop() {}
+  void pop() {
+    int t = s.top();
+    s.pop();
+    if (s_min.top() == t) {
+      s_min.pop();
+    }
+  }
 
-  int top() {}
+  int top() { return s.top(); }
 
-  int getMin() {}
+  int getMin() { return s_min.top(); }
 };
 
 /**
