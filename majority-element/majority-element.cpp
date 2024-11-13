@@ -21,13 +21,21 @@ const ll LLINF = 4e18; // 4*10^18 is < 2^63-1
 const double EPS = 1e-9;
 class Solution {
 public:
-  int quickselect(vector<int> &nums, int k) {}
-  int majorityElement(vector<int> &nums) {}
+  int majorityElement(vector<int> &nums) {
+    sort(nums.begin(), nums.end());
+    return nums[nums.size() / 2];
+  }
 };
 
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+
+  vector<int> vec = {1, 2, 2, 3, 2};
+
+  Solution sol = Solution();
+
+  cout << sol.majorityElement(vec) << endl;
 
   return 0;
 }
