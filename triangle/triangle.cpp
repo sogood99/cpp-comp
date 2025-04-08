@@ -22,23 +22,16 @@ const double EPS = 1e-9;
 
 class Solution {
 public:
-  int mySqrt(int x) {
-    int l = 0, r = x, ans = -1;
+  int minimumTotal(vector<vector<int>> &triangle) {
+    int n = triangle.size();
 
-    while (l <= r) {
-      int m = (l + r) / 2;
-      long long q = ((long long)m) * m;
-
-      if (q == x) {
-        return m;
-      } else if (q < x) {
-        ans = m;
-        l = m + 1;
-      } else {
-        r = m - 1;
+    for (int i = n - 2; i >= 0; i--) {
+      for (int j = 0; j <= i; j++) {
+        triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1]);
       }
     }
-    return ans;
+
+    return triangle[0][0];
   }
 };
 

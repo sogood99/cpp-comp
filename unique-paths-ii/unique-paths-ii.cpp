@@ -22,23 +22,19 @@ const double EPS = 1e-9;
 
 class Solution {
 public:
-  int mySqrt(int x) {
-    int l = 0, r = x, ans = -1;
-
-    while (l <= r) {
-      int m = (l + r) / 2;
-      long long q = ((long long)m) * m;
-
-      if (q == x) {
-        return m;
-      } else if (q < x) {
-        ans = m;
-        l = m + 1;
-      } else {
-        r = m - 1;
+  int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid) {
+    int m = obstacleGrid.size(), n = obstacleGrid[0].size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    dp[0][0] = 1;
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        if (!obstacleGrid[i][j]) {
+          dp[i + 1][j] += dp[i][j];
+          dp[i][j + 1] += dp[i][j];
+        }
       }
     }
-    return ans;
+    return obstacleGrid[m - 1][n - 1] ? 0 : dp[m - 1][n - 1];
   }
 };
 

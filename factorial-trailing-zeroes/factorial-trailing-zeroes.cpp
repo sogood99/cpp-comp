@@ -22,23 +22,22 @@ const double EPS = 1e-9;
 
 class Solution {
 public:
-  int mySqrt(int x) {
-    int l = 0, r = x, ans = -1;
+  int trailingZeroes(int n) {
+    int twocount = 0, fivecount = 0;
 
-    while (l <= r) {
-      int m = (l + r) / 2;
-      long long q = ((long long)m) * m;
-
-      if (q == x) {
-        return m;
-      } else if (q < x) {
-        ans = m;
-        l = m + 1;
-      } else {
-        r = m - 1;
+    for (int k = 2; k <= n; k++) {
+      int z = k;
+      // while (z > 0 && z % 2 == 0) {
+      //   z /= 2;
+      //   twocount++;
+      // }
+      while (z > 0 && z % 5 == 0) {
+        z /= 5;
+        fivecount++;
       }
     }
-    return ans;
+    // return min(twocount, fivecount);
+    return fivecount;
   }
 };
 

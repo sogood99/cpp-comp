@@ -21,20 +21,26 @@ const int INF = 1e9;   // 10^9 = 1B is < 2^31-1
 const ll LLINF = 4e18; // 4*10^18 is < 2^63-1
 const double EPS = 1e-9;
 
-int hIndex(vector<int> &citations) {
-  sort(citations.begin(), citations.end());
-  int n = citations.size();
+class Solution {
+public:
+  int hIndex(vector<int> &citations) {
+    sort(citations.begin(), citations.end());
 
-  return find_h(0, citations[n - 1], citations);
-}
+    int n = citations.size();
+    for (int h = n; h >= 0; h--) {
+      auto it = lower_bound(citations.begin(), citations.end(), h);
+      if (distance(it, citations.end()) >= h) {
+        return h;
+      }
+    }
+
+    return -1;
+  }
+};
 
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
-  vector<int> v = {1, 3, 1};
-
-  cout << hIndex(v) << endl;
 
   return 0;
 }

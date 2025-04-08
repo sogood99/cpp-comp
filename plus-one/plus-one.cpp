@@ -22,23 +22,22 @@ const double EPS = 1e-9;
 
 class Solution {
 public:
-  int mySqrt(int x) {
-    int l = 0, r = x, ans = -1;
-
-    while (l <= r) {
-      int m = (l + r) / 2;
-      long long q = ((long long)m) * m;
-
-      if (q == x) {
-        return m;
-      } else if (q < x) {
-        ans = m;
-        l = m + 1;
+  vector<int> plusOne(vector<int> &digits) {
+    int n = digits.size();
+    digits[n - 1]++;
+    for (int k = n - 1; k > 0; k--) {
+      if (digits[k] >= 10) {
+        digits[k] -= 10;
+        digits[k - 1]++;
       } else {
-        r = m - 1;
+        break;
       }
     }
-    return ans;
+    if (digits[0] >= 10) {
+      digits[0] -= 10;
+      digits.insert(digits.begin(), 1);
+    }
+    return digits;
   }
 };
 

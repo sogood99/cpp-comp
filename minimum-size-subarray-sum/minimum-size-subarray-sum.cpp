@@ -22,23 +22,18 @@ const double EPS = 1e-9;
 
 class Solution {
 public:
-  int mySqrt(int x) {
-    int l = 0, r = x, ans = -1;
-
-    while (l <= r) {
-      int m = (l + r) / 2;
-      long long q = ((long long)m) * m;
-
-      if (q == x) {
-        return m;
-      } else if (q < x) {
-        ans = m;
-        l = m + 1;
-      } else {
-        r = m - 1;
+  int minSubArrayLen(int target, vector<int> &nums) {
+    int s = 0, sz = INT_MAX, n = nums.size(), l = 0;
+    for (int r = 0; r < n; r++) {
+      s += nums[r];
+      while (l <= r && s >= target) {
+        sz = min(sz, r - l + 1);
+        s -= nums[l];
+        l++;
       }
     }
-    return ans;
+
+    return sz < INT_MAX ? sz : 0;
   }
 };
 
