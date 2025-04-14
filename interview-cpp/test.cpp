@@ -1,8 +1,9 @@
 #include <iostream>
 
-int main() {
-  auto s = "abc";
-  std::cout << typeid(s).name() << std::endl;
+class Test {
 
-  return 0;
-}
+public:
+  char c;
+};
+
+int main() { Test t; }
