@@ -30,13 +30,10 @@ public:
   LRUCache(int capacity) { this->capacity = capacity; }
 
   int get(int key) {
-
     if (um.count(key) == 0) {
       return -1;
     }
-
     linkedlist.splice(linkedlist.begin(), linkedlist, um[key]);
-
     return um[key]->second;
   }
 
