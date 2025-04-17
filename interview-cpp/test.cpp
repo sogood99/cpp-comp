@@ -1,9 +1,10 @@
 #include <iostream>
+#include <vector>
 
-class Test {
+int main() {
+  std::vector<int> v = {1, 2, 3};
 
-public:
-  char c;
-};
+  v.erase(v.begin(), v.end());
 
-int main() { Test t; }
+  std::cout << v.size() << std::endl;
+}
