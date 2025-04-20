@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bits/extc++.h>
 #include <bits/stdc++.h>
 #include <unordered_set>
@@ -22,36 +23,57 @@ const ll LLINF = 4e18; // 4*10^18 is < 2^63-1
 const double EPS = 1e-9;
 
 class Solution {
-private:
-  long long backtrack(unordered_set<int> &hm, vector<int> &nums, int j, int k) {
-    if (j < 0) {
-      // check if possible
-      for (int a : hm) {
-        if (hm.count(a + k) || hm.count(a - k)) {
-          return 0;
-        }
-      }
-      return 1;
-    }
-    // dont insert nums[i]
-    int cnt = 0;
-    cnt += backtrack(hm, nums, j - 1, k);
-    hm.insert(nums[j]);
-    cnt += backtrack(hm, nums, j - 1, k);
-    hm.erase(nums[j]);
-    return cnt;
-  }
-
 public:
   long long countTheNumOfKFreeSubsets(vector<int> &nums, int k) {
-    unordered_set<int> hm;
-    return backtrack(hm, nums, nums.size() - 1, k);
+    vector<vector<int>> v(k);
+    for (int i : nums) {
+      v[i % k].push_back(i);
+    }
+
+    long long cnt = 1;
+
+    for (int b = 0; b < k; b++) {
+      sort(v[b].begin(), v[b].end());
+
+      int sz = v[b].size();
+
+      if (sz == 0) {
+        continue;
+      }
+
+      long long pre1 = 1, pre2 = 0;
+
+      long long num_subsets = 1;
+
+      for (int i = 1; i < sz; i++) {
+        long long curr = 1;
+        if (v[b][i] != v[b][i - 1] + k) {
+          curr += pre1;
+        } else {
+          curr += pre2;
+        }
+
+        pre2 = pre1;
+        pre1 += curr;
+
+        num_subsets += curr;
+      }
+
+      cnt *= (num_subsets + 1);
+    }
+
+    return cnt;
   }
 };
 
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+
+  Solution s;
+
+  vector<int> nums = {2, 3, 5, 8};
+  cout << s.countTheNumOfKFreeSubsets(nums, 5);
 
   return 0;
 }
