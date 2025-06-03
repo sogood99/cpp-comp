@@ -21,10 +21,32 @@ const ll LLINF = 4e18; // 4*10^18 is < 2^63-1
 const double EPS = 1e-9;
 
 class Solution {
+private:
+  double dist(vector<int> &p) { return sqrt(p[0] * p[0] + p[1] * p[1]); }
+
 public:
   vector<vector<int>> kClosest(vector<vector<int>> &points, int k) {
+    priority_queue<pair<double, int>> q;
 
-    return {};
+    int n = points.size();
+    for (int i = 0; i < n; i++) {
+      vector<int> &p = points[i];
+      double d = dist(p);
+
+      q.push({d, i});
+      if (q.size() > k) {
+        q.pop();
+      }
+    }
+
+    vector<vector<int>> res;
+    while (!q.empty()) {
+      auto [d, u] = q.top();
+      res.push_back(points[u]);
+      q.pop();
+    }
+
+    return res;
   }
 };
 
